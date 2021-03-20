@@ -16,6 +16,9 @@ This package is dependent on DayJS heavily. These are the dependencies:
 <script src="https://unpkg.com/dayjs@1.10.4/plugin/timezone.js"></script>
 
 <script src="https://unpkg.com/dayjs@1.10.4/plugin/advancedFormat.js"></script>
+
+<!-- AddEvent script : This is only needed if you want to add an add to calendar event -->
+<script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
 ```
 
 Make sure to put these before the end of the body section.
