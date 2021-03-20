@@ -1,5 +1,7 @@
 This is a package for StealthSeminar users for showing webinar date and time, countdown, event and calendar .
 
+Where ever you use this, make sure you are passing the attendee id, otherwise it will not work. e.g. if you are using it on `https://yoursite.com` you can go to StealthSeminar and set this as thank you page url, which will take care of it for you, `https://yoursite.com/?autoLoginId={autoLoginId}`
+
 Add this to the header section of your page
 
 ```
