@@ -59,7 +59,7 @@ let webinar = {
       this.countDownLabels.days
     }</span></div>
 
-    
+
     <div class=${
       this.selector.countdownHoursContainer.split(".")[1]
     }><span class=${
@@ -155,6 +155,9 @@ let webinar = {
       "autoLoginId"
     )}&timezone=${this.localTimezone()}`;
   },
+  apiUrlWithEmail: function () {
+    return `https://api.joinnow.live/webinars/${this.shortId}/webinars/login`;
+  },
   formattedDateTime: function (time, textDateformat) {
     const self = this;
     self.localTimezone(); //remove this once I change timezone
@@ -198,9 +201,11 @@ let webinar = {
   },
 
   webinarLink: function () {
-    return `https://joinnow.live/a/${this.shortId}?id=${this.getUrlParameter(
-      "autoLoginId"
-    )}`;
+    const autoLoginId = this.getUrlParameter("autoLoginId");
+    const email = localStorage.getItem("ssjemail");
+    const linkWithAutoLoginID = `https://joinnow.live/a/${this.shortId}?id=${autoLoginId}`;
+    const linkWithEmail = `https://joinnow.live/a/${this.shortId}?email=${email}`;
+    return autoLoginId ? linkWithAutoLoginID : linkWithEmail;
   },
   calendarNode: function (req) {
     const upcomingTime = JSON.parse(req).display_start_time;
@@ -322,6 +327,42 @@ let webinar = {
     const request = new XMLHttpRequest();
     request.open("GET", this.apiUrl());
     request.send();
+    request.onreadystatechange = function () {
+      if (this.readyState === 4) {
+        // see if the request is ready
+        if (this.status === 200) {
+          funcs.forEach(function (func) {
+            return func(request.responseText);
+          });
+        } else {
+          err();
+        }
+      }
+    };
+  },
+  requestWithEmail: function (funcs, err) {
+    if (this.shortId === "") {
+      err();
+      return;
+    }
+    if (
+      localStorage.getItem("ssjemail") === "" ||
+      localStorage.getItem("ssjemail") === null
+    ) {
+      err();
+      return;
+    }
+    const request = new XMLHttpRequest();
+
+    const postData = JSON.stringify({
+      email: localStorage.getItem("ssjemail"),
+      linkParams: {},
+      timezone: this.localTimezone(),
+    });
+
+    request.open("POST", this.apiUrlWithEmail());
+    request.setRequestHeader("Content-Type", "application/json");
+    request.send(postData);
     request.onreadystatechange = function () {
       if (this.readyState === 4) {
         // see if the request is ready
