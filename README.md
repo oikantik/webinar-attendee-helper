@@ -7,7 +7,7 @@ This is a package for StealthSeminar users for showing webinar date and time, co
 2. Add this to the header section of your page
 
 ```
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/oikantik/webinar-attendee-helper/attendee-information.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/oikantik/webinar-attendee-helper@1.0.0/attendee-information.css">
 ```
 
 3. This package is dependent on DayJS heavily. These are the dependencies:
@@ -32,7 +32,7 @@ Make sure to put these before the end of the body section.
 4. And then add this package.
 
 ```
-<script src="https://cdn.jsdelivr.net/gh/oikantik/webinar-attendee-helper/attendee-information.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/oikantik/webinar-attendee-helper@1.0.0/attendee-information.js"></script>
   <script>
     webinar.shortId = "XXXXX"; // replace this with your shortid
     webinar.event.summary = ''; // if you are using calendar
