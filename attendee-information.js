@@ -156,7 +156,7 @@ let webinar = {
     )}&timezone=${this.localTimezone()}`;
   },
   apiUrlWithEmail: function () {
-    return `https://api.joinnow.live/webinars/${this.shortId}/webinars/login`;
+    return `https://api.joinnow.live/webinars/${this.shortId}/login`;
   },
   formattedDateTime: function (time, textDateformat) {
     const self = this;
