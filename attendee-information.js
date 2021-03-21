@@ -2,6 +2,7 @@ let webinar = {
   spinnerColor: "#000",
   shortId: "",
   textDateformat: "MMM D @ h:mmA z",
+  gotoLinkText: "Go To Webinar",
   event: {
     summary: "",
     description: "",
@@ -47,13 +48,7 @@ class=${this.selector.countdownMinutes.split(".")[1]}>00</span>:<span class=${
       this.selector.countdownSeconds.split(".")[1]
     }>00</span>`;
   },
-  eventContainer: function (
-    startTime,
-    endTime,
-    summary,
-    description,
-    location
-  ) {
+  eventContainer: function (startTime, endTime, summary, description) {
     return `
       <div title="Add to Calendar" class="addeventatc">
       Add to Calendar
@@ -70,9 +65,7 @@ class=${this.selector.countdownMinutes.split(".")[1]}>00</span>:<span class=${
       <span class="description">${
         description ? description : "Description of the event"
       }</span>
-      <span class="location">${
-        location ? location : "Location of the event"
-      }</span>
+      <span class="location">${this.webinarLink()}</span>
     </div>
 `;
   },
@@ -166,10 +159,11 @@ class=${this.selector.countdownMinutes.split(".")[1]}>00</span>:<span class=${
     minutesSpan.innerHTML = ("0" + time.minutes).slice(-2);
     secondsSpan.innerHTML = ("0" + time.seconds).slice(-2);
   },
+
   webinarLink: function () {
-    return `<a href="https://joinnow.live/a/${
-      this.shortId
-    }?id=${this.getUrlParameter("autoLoginId")}">Go To Webinar</a>`;
+    return `https://joinnow.live/a/${this.shortId}?id=${this.getUrlParameter(
+      "autoLoginId"
+    )}`;
   },
   calendarNode: function (req) {
     const upcomingTime = JSON.parse(req).display_start_time;
@@ -234,7 +228,9 @@ class=${this.selector.countdownMinutes.split(".")[1]}>00</span>:<span class=${
   linkNode: function () {
     const self = this;
     this.linkContainers().forEach(function (container) {
-      container.innerHTML = self.webinarLink();
+      container.innerHTML = `<a href=${self.webinarLink()}>${
+        self.gotoLinkText
+      }</a>`;
     });
   },
   textNode: function (req) {
@@ -261,6 +257,11 @@ class=${this.selector.countdownMinutes.split(".")[1]}>00</span>:<span class=${
       this.calendarContainers().forEach(function (container) {
         container.innerHTML = "Invalid ID";
       });
+
+    this.addEventContainers() &&
+      this.addEventContainers().forEach(function (container) {
+        container.innerHTML = "Invalid ID";
+      });
   },
   addEventNode: function (req) {
     const upcomingTime = JSON.parse(req).display_start_time;
@@ -272,8 +273,7 @@ class=${this.selector.countdownMinutes.split(".")[1]}>00</span>:<span class=${
         upcomingTime,
         endTime,
         self.event.summary,
-        self.event.description,
-        self.event.location
+        self.event.description
       );
     });
   },
