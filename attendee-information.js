@@ -1,5 +1,5 @@
 let webinar = {
-  spinnerColor: "#000",
+  spinnerColor: "#1a9dd0",
   shortId: "",
   textDateformat: "MMM D @ h:mmA z",
   gotoLinkText: "Go To Webinar",
@@ -8,6 +8,12 @@ let webinar = {
     description: "",
     location: "",
     timeFormat: "MM/DD/YYYY hh:mm A",
+  },
+  countDownLabels: {
+    days: "Days",
+    hours: "Hours",
+    minutes: "Minutes",
+    seconds: "Seconds",
   },
   selector: {
     event: ".ss-event-calendar",
@@ -22,6 +28,12 @@ let webinar = {
     calendarWeekdayMonth: ".ss-calendar__weekday-month",
     calendarTime: ".ss-calendar__time",
     countdown: ".ss-countdown",
+    countdownDaysContainer: ".ss-countdown__days-container",
+    countdownHoursContainer: ".ss-countdown__hours-container",
+    countdownMinutesContainer: ".ss-countdown__minutes-container",
+    countdownSecondsContainer: ".ss-countdown__seconds-container",
+    countDownSeparator: ".ss-countdown__separator",
+    countDownLabel: ".ss-countdown__label",
     countdownDays: ".ss-countdown__days",
     countdownHours: ".ss-countdown__hours",
     countdownMinutes: ".ss-countdown__minutes",
@@ -39,14 +51,39 @@ let webinar = {
       : decodeURIComponent(results[1].replace(/\+/g, " "));
   },
   countdownContainer: function () {
-    return `<span class=${
+    return `<div class=${
+      this.selector.countdownDaysContainer.split(".")[1]
+    }><span class=${
       this.selector.countdownDays.split(".")[1]
-    }>00</span>:<span class=${
+    }>00</span><span class=${this.selector.countDownLabel.split(".")[1]}>${
+      this.countDownLabels.days
+    }</span></div>
+
+    
+    <div class=${
+      this.selector.countdownHoursContainer.split(".")[1]
+    }><span class=${
       this.selector.countdownHours.split(".")[1]
-    }>00</span>:<span
-class=${this.selector.countdownMinutes.split(".")[1]}>00</span>:<span class=${
+    }>00</span><span class=${this.selector.countDownLabel.split(".")[1]}>${
+      this.countDownLabels.hours
+    }</span></div>
+
+    <div class=${
+      this.selector.countdownMinutesContainer.split(".")[1]
+    }><span class=${
+      this.selector.countdownMinutes.split(".")[1]
+    }>00</span><span class=${this.selector.countDownLabel.split(".")[1]}>${
+      this.countDownLabels.minutes
+    }</span></div>
+
+    <div class=${
+      this.selector.countdownSecondsContainer.split(".")[1]
+    }><span class=${
       this.selector.countdownSeconds.split(".")[1]
-    }>00</span>`;
+    }>00</span><span class=${this.selector.countDownLabel.split(".")[1]}>${
+      this.countDownLabels.seconds
+    }</span></div>
+    `;
   },
   eventContainer: function (startTime, endTime, summary, description) {
     return `
